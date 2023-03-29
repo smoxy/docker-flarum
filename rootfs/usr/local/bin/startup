@@ -121,6 +121,9 @@ else
   su-exec "${UID}:${GID}" php /flarum/app/flarum install --file=/flarum/app/config.yml \
   && touch /flarum/app/public/assets/._flarum-installed.lock
 
+  echo "* * * * * cd /flarum/app && php flarum schedule:run >> /dev/null 2>&1" >> /etc/crontabs/root
+  crontab -l
+
   echo "[INFO] End of flarum installation"
 fi
 
