@@ -1,0 +1,44 @@
+version: "3.9"
+
+services:
+  flarum:
+    image: flarum:stable
+    container_name: flarum
+    build:
+      dockerfile: /home/{$whoami}/docker_pj/docker-flarum/Dockerfile
+    restart: "unless-stopped"
+    env_file:
+      - /home/{$whoami}/docker_pj/docker-flarum/flarum.env
+    volumes:
+      - /home/{$whoami}/docker_pj/docker-flarum/data/flarum/assets:/flarum/app/public/assets
+      - /home/{$whoami}/docker_pj/docker-flarum/data/flarum/extensions:/flarum/app/extensions
+      - /home/{$whoami}/docker_pj/docker-flarum/data/flarum/storage/logs:/flarum/app/storage/logs
+      - /home/{$whoami}/docker_pj/docker-flarum/data/flarum/nginx:/etc/nginx/flarum
+    ports:
+      - 8888:8888
+    depends_on:
+      - mariadb
+
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb
+    restart: "unless-stopped"
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=example
+      - MYSQL_DATABASE=flarum
+      - MYSQL_USER=flarum
+      - MYSQL_PASSWORD=example
+    volumes:
+      - /home/{$whoami}/docker_pj/docker-flarum/data/db:/var/lib/mysql
+  
+  phpmyadmin:
+    image: phpmyadmin
+    restart: "unless-stopped"
+    ports:
+      - 8889:80
+    environment:
+      - PMA_ARBITRARY=1
+    depends_on:
+      - mariadb
