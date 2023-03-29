@@ -97,7 +97,8 @@ RUN apk add --no-progress --no-cache \
   && composer require antoinefr/flarum-ext-money \
   && composer require clarkwinkelmann/flarum-ext-money-rewards \
   && composer require clarkwinkelmann/flarum-ext-money-to-all \
-  && composer require fof/doorman:"*"
+  && composer require fof/doorman:"*" \
+  && composer require zerosonesfun/direct-links
   #&& composer require justoverclock/custom-html-widget:"*" \
   #&& composer require justoverclock/custom-header:"*" \
 
